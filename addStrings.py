@@ -1,16 +1,16 @@
 def addStrings(num1, num2):
-    sum = ""
+    maxLen = max(len(num1), len(num2))
+    num1 = num1.zfill(maxLen)
+    num2 = num2.zfill(maxLen)
+    sum = []
     carry = 0
-    pos1 = len(num1) - 1
-    pos2 = len(num2) - 1
-    while pos1 >= 0 or pos2 >= 0:
-        currentSum = carry
-        if pos1 >= 0: currentSum += ord(num1[pos1]) - ord('0')
-        if pos2 >= 0: currentSum += ord(num2[pos2]) - ord('0')
-        digit = currentSum % 10
+    for i in reversed(range(maxLen)):
+        digit1 = ord(num1[i]) - ord('0')
+        digit2 = ord(num2[i]) - ord('0')
+        currentSum = digit1 + digit2 + carry
+        sum.append(currentSum % 10)
         carry = currentSum / 10
-        sum += str(digit)
-        pos1 -= 1
-        pos2 -= 1
-    if carry == 1: sum += '1'
-    return sum[::-1]
+    if carry == 1:
+        sum.append(carry)
+    sum.reverse()
+    return "".join(map(str, sum))
