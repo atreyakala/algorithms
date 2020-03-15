@@ -1,7 +1,7 @@
 def merge(nums1, m, num2, n):
-    pos1 = m + n - 1
+    pos1 = m - 1
     pos2 = n - 1
-    writeIdx = m - 1
+    writeIdx = m + n - 1
     while pos1 >= 0 and pos2 >= 0:
         num1 = nums1[pos1]
         num2 = nums2[pos2]
