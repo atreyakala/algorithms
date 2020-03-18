@@ -13,11 +13,11 @@ def explore(begin, end, patternDictionary):
         for i in range(len(word)):
             pattern = word[:i] + "_" + word[i + 1:]
             patternWords = patternDictionary[pattern]
-            for patternWord in patternWords:
-                if patternWord not in visited:
-                    if patternWord == end:
+            for nextWord in patternWords:
+                if nextWord not in visited:
+                    if nextWord == end:
                         return depth + 1
-                    visited.add(patternWord)
+                    visited.add(nextWord)
                     queue.append((patternWord, depth + 1))
     return 0
 
