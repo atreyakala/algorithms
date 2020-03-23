@@ -1,28 +1,28 @@
 def searchRange(nums, target):
-    if nums is None or len(nums) == 0:
-        return [-1, -1]
-    left = searchLeft(nums, target)
-    if left == -1:
-        return [-1, -1]
-    return left, searchRight(nums, target, left)
+    finalRange = [-1, -1]
+    binarySearch(nums, target, 0, len(nums) - 1, finalRange, True)
+    if finalRange[0] == -1:
+        return finalRange
+    binarySearch(nums, target, finalRange[0], len(nums) - 1, finalRange, False)
+    return finalRange
 
-def searchLeft(nums, target):
-    left = 0
-    right = len(nums) - 1
+def binarySearch(nums, target, left, right, finalRange, goLeft):
     while left <= right:
         mid = (left + right) // 2
-        if target > nums[mid]:
+        if nums[mid] < target:
             left = mid + 1
-        else:
-            right = mid - 1
-    return left if left < len(nums) and nums[left] == target else -1
-
-def searchRight(nums, target, left):
-    right = len(nums) - 1
-    while left < right:
-        mid = (left + right) // 2
-        if target < nums[mid]:
+        elif nums[mid] > target:
             right = mid - 1
         else:
-            left = mid + 1
-    return right
+            if goLeft:
+                if mid == 0 or nums[mid - 1] != target:
+                    finalRange[0] = mid
+                    return
+                else:
+                    right = mid - 1
+            else:
+                if mid == len(nums) - 1 or nums[mid + 1] != target:
+                    finalRange[1] = mid
+                    return
+                else:
+                    left = mid + 1
