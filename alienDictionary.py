@@ -1,16 +1,19 @@
 from collections import defaultdict
+from collections import deque
 
 def alienOrder(words):
+    if len(words) == 1:
+        return words[0]
     charSet, numOfPrereqs, dependents = setupGraph(words)
-    canTake = charSet - set(numOfPrereqs.keys())
+    canTake = deque(charSet - set(numOfPrereqs.keys()))
     alphabet = []
     while canTake:
-        curr = canTake.pop()
+        curr = canTake.popleft()
         alphabet.append(curr)
         for dep in dependents[curr]:
             numOfPrereqs[dep] -= 1
             if numOfPrereqs[dep] == 0:
-                canTake.add(dep)
+                canTake.append(dep)
     return "".join(alphabet) if len(alphabet) == len(charSet) else ""
 
 def setupGraph(words):
@@ -19,12 +22,14 @@ def setupGraph(words):
     dependents = defaultdict(lambda: [])
     for i in range(len(words) - 1):
         currWord = words[i]
+        for char in currWord:
+            charSet.add(char)
         nextWord = words[i + 1]
+        for char in nextWord:
+            charSet.add(char)
         for j in range(min(len(currWord), len(nextWord))):
             currWordChar = currWord[j]
             nextWordChar = nextWord[j]
-            charSet.add(currWordChar)
-            charSet.add(nextWordChar)
             if currWordChar == nextWordChar:
                 continue
             else:
@@ -32,14 +37,3 @@ def setupGraph(words):
                 dependents[currWordChar].append(nextWordChar)
                 break
     return charSet, numOfPrereqs, dependents
-
-import pytest
-
-def test_1():
-    assert alienOrder(["wrt","wrf","er","ett","rftt"]) == "wertf"
-
-def test_2():
-    assert alienOrder(["z", "x"]) == "zx"
-
-def test_3():
-    assert alienOrder(["z", "x", "z"]) == ""

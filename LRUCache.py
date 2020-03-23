@@ -86,16 +86,3 @@ class DoublyLinkedListNode:
         self.prev = None
         self.next = None
         return
-
-
-class DoublyLinkedList:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-
-class DoublyLinkedListNode:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.prev = None
-        self.next = None
