@@ -1,11 +1,14 @@
+from collections import defaultdict
+from collections import Counter
+
 def minWindow(string, chars):
-    targetCharCount = getCharCount(chars)
+    targetCharCount = Counter(chars)
     subStringBounds = findSubStringBounds(string, targetCharCount)
     return getStringFromBounds(string, subStringBounds)
 
 def findSubStringBounds(string, targetCharCount):
     subStringBounds = [0, float("inf")]
-    subStringCharCount = {}
+    subStringCharCount = defaultdict(lambda: 0)
     numOfUniqueChars = len(targetCharCount.keys())
     numOfUniqueCharsDone = 0
     leftIdx = 0
@@ -15,7 +18,7 @@ def findSubStringBounds(string, targetCharCount):
         if rightChar not in targetCharCount:
             rightIdx += 1
             continue
-        incrementCharCount(subStringCharCount, rightChar)
+        subStringCharCount[rightChar] += 1
         if subStringCharCount[rightChar] == targetCharCount[rightChar]:
             numOfUniqueCharsDone += 1
         while numOfUniqueCharsDone == numOfUniqueChars and leftIdx <= rightIdx:
@@ -26,27 +29,12 @@ def findSubStringBounds(string, targetCharCount):
                 continue
             if subStringCharCount[leftChar] == targetCharCount[leftChar]:
                 numOfUniqueCharsDone -= 1
-            decrementCharCount(subStringCharCount, leftChar)
+            subStringCharCount[leftChar] -= 1
             leftIdx += 1
         rightIdx += 1
     return subStringBounds
 
-def getCharCount(string):
-    charCount = {}
-    for char in string:
-        incrementCharCount(charCount, char)
-    return charCount
-
-def incrementCharCount(charCount, char):
-    if char in charCount:
-        charCount[char] += 1
-    else:
-        charCount[char] = 1
-
-def decrementCharCount(charCount, char):
-    charCount[char] -= 1
-
-def getCloserBounds(currLeft, currRight, prevLeft, prevRight):
+def getCloserBounds(self, currLeft, currRight, prevLeft, prevRight):
     return [currLeft, currRight] if currRight - currLeft < prevRight - prevLeft else [prevLeft, prevRight]
 
 def getStringFromBounds(string, bounds):

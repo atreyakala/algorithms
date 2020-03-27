@@ -16,7 +16,7 @@ def addStrings(num1, num2):
     return "".join(map(str, sum))
 
 def addDecimalStrings(num1, num2):
-    num1, num2 = normaliseNums(num1, num2)
+    num1, num2 = formatNumbers(num1, num2)
     carry = 0
     sum = []
     for i in reversed(range(len(num1))):
@@ -35,9 +35,9 @@ def addDecimalStrings(num1, num2):
         sum.pop()
     return "".join(sum).rstrip('0')
 
-def normaliseNums(num1, num2):
-    decimal1, fraction1 = splitNumAtDecimal(num1)
-    decimal2, fraction2 = splitNumAtDecimal(num2)
+def formatNumbers(num1, num2):
+    decimal1, fraction1 = splitNumberAtDecimal(num1)
+    decimal2, fraction2 = splitNumberAtDecimal(num2)
     decimalLen = max(len(decimal1), len(decimal2))
     decimal1 = decimal1.zfill(decimalLen)
     decimal2 = decimal2.zfill(decimalLen)
@@ -48,7 +48,7 @@ def normaliseNums(num1, num2):
     num2 = decimal2 + '.' + fraction2
     return num1 , num2
 
-def splitNumAtDecimal(num):
+def splitNumberAtDecimal(num):
     if '.' not in num:
         num += '.'
     decimal, fraction = num.split(".")
