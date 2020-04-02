@@ -1,24 +1,24 @@
 def numIslands(grid):
-    numRows = len(grid)
-    numCols = len(grid[0])
-    r = 0
-    c = 0
-    numIslands = 0
-    for r in xrange(numRows):
-        for c in xrange(numCols):
+    if grid is None or len(grid) == 0:
+        return 0
+    rows = len(grid)
+    cols = len(grid[0])
+    dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    islands = 0
+    for r in range(rows):
+        for c in range(cols):
             if grid[r][c] == '1':
-                numIslands += 1
-                self.visitNeighbours(r, c, grid)
-    return numIslands
+                islands += 1
+                explore(r, c, grid, dirs)
+    return islands
 
-def visitNeighbours(r, c, grid):
-    numRows = len(grid)
-    numCols = len(grid[0])
-    if r < 0 or c < 0 or r >= numRows or c >= numCols:
+def explore(r, c, grid, dirs):
+    rows = len(grid)
+    cols = len(grid[0])
+    if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] == '0':
         return
-    else:
-        grid[i][j] = '0'
-        self.visitNeighbours(r, c + 1, grid)
-        self.visitNeighbours(r + 1, c, grid)
-        self.visitNeighbours(r, c - 1, grid)
-        self.visitNeighbours(r - 1, c, grid)
+    grid[r][c] = '0'
+    for dr, dc in dirs:
+        row = r + dr
+        col = c + dc
+        explore(row, col, grid, dirs)
