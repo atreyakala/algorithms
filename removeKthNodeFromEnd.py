@@ -5,17 +5,17 @@ class LinkedList:
         self.next = None
 
 def removeKthNodeFromEnd(head, k):
-    counter = 1
-    first = head
-    second = head
-    while counter <= k:
-        second = second.next
-    if second.next is None:
-        head.value = head.next.value
-        head.next = head.next.next
-        return
-    while second.next is not None:
-        second = second.next
-        first = first.next
-    first.next = first.next.next
-    return
+    if head is None:
+        return None
+    leader = head
+    follower = head
+    for _ in range(n):
+        leader = leader.next
+    if leader is None:
+        head = head.next
+        return head
+    while leader.next is not None:
+        leader = leader.next
+        follower = follower.next
+    follower.next = follower.next.next
+    return head

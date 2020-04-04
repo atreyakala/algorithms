@@ -1,11 +1,11 @@
 import heapq
 
-def findKthLargest(nums, k):
+def findKthLargest(self, nums, k):
     heap = []
     for num in nums:
         if len(heap) < k:
-            heapq.heappush(-num)
+            heapq.heappush(heap, num)
         else:
-            last = -heap[-1]
-            if num > top:
-                heapq.heapreplace(-num)
+            if num > heap[0]:
+                heapq.heapreplace(heap, num)
+    return heap[0]
