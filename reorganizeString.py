@@ -1,34 +1,28 @@
+from collections import Counter
+from collections import deque
+
 def reorganizeString(string):
-    charCount = getCharCount(string)
-    mostFreqChar = max(charCount.keys(), key = lambda char: charCount[char])
-    maxFreq = charCount[mostFreqChar]
+    freq = Counter(string)
+    mostFreq, maxFreq = freq.most_common(1)[0]
     if maxFreq > (len(string) + 1) // 2:
         return ""
-    leftOverChars = getLeftOverChars(charCount, mostFreqChar)
-    organizedChars = [None] * len(string)
-    for i in xrange(0, len(string), 2):
+    fillers = getFillers(freq, mostFreq)
+    reorganised = [None] * len(string)
+    for i in range(0, len(string), 2):
         if maxFreq > 0:
-            organizedChars[i] = mostFreqChar
+            reorganised[i] = mostFreq
             maxFreq -= 1
         else:
-            organizedChars[i] = leftOverChars.pop(0)
-    for i in xrange(1, len(string), 2):
-        organizedChars[i] = leftOverChars.pop(0)
-    return "".join(organizedChars)
+            reorganised[i] = fillers.popleft()
+    for i in range(1, len(string), 2):
+        reorganised[i] = fillers.popleft()
+    return "".join(reorganised)
 
-def getCharCount(string):
-    charCount = {}
-    for char in string:
-        if char in charCount:
-            charCount[char] += 1
-        else:
-            charCount[char] = 1
-    return charCount
-
-def getLeftOverChars(charCount, mostFreqChar):
-    leftOverChars = []
-    for char, count in charCount.items():
-        if char is not mostFreqChar:
-            for _ in xrange(count):
-                leftOverChars.append(char)
-    return leftOverChars
+def getFillers(freq, mostFreq):
+    fillers = deque([])
+    for char, count in freq.items():
+        if char == mostFreq:
+            continue
+        for _ in range(count):
+            fillers.append(char)
+    return fillers
