@@ -9,7 +9,7 @@
 
 from collections import deque
 
-def removeDuplicates(string):
+def removeDuplicates(string: str) -> str:
     charStack = deque()
     for char in string:
         if charStack and charStack[-1] == char:
