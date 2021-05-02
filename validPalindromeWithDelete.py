@@ -11,24 +11,24 @@
 # Output: True
 
 def valid_palindrome(string: str) -> bool:
-    left = 0
-    right = len(string) - 1
-    while left < right:
-        if string[left] != string[right]:
-            return is_palindrome(string[left: right]) or is_palindrome(string[left + 1: right + 1])
-        left += 1
-        right -= 1
+    left_idx = 0
+    right_idx = len(string) - 1
+    while left_idx < right_idx:
+        if string[left_idx] != string[right_idx]:
+            return is_palindrome(string[left_idx: right_idx]) or is_palindrome(string[left_idx + 1: right_idx + 1])
+        left_idx += 1
+        right_idx -= 1
     return True
 
 
 def is_palindrome(string: str) -> bool:
-    left = 0
-    right = len(string) - 1
-    while left < right:
-        if string[left] != string[right]:
+    left_idx = 0
+    right_idx = len(string) - 1
+    while left_idx < right_idx:
+        if string[left_idx] != string[right_idx]:
             return False
-        left += 1
-        right -= 1
+        left_idx += 1
+        right_idx -= 1
     return True
 
 
