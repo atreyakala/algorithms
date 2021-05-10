@@ -26,3 +26,5 @@ def test_0():
 
 def test_1():
     assert merge_intervals([[1, 3], [2, 6], [8, 10], [15, 18]]) == [[1, 6], [8, 10], [15, 18]]
+
+# O(NlogN) | O(N)
