@@ -11,27 +11,28 @@
 
 from collections import deque
 
-def removeDuplicates(string: str) -> str:
-    charStack = deque()
+
+def remove_duplicates(string: str) -> str:
+    char_stack = deque()
+
     for char in string:
-        if charStack and charStack[-1] == char:
-            charStack.pop()
+        if char_stack and char_stack[-1] == char:
+            char_stack.pop()
         else:
-            charStack.append(char)
-    return "".join(charStack)
+            char_stack.append(char)
 
-from hamcrest import assert_that, equal_to
-import unittest
+    return "".join(char_stack)
 
-class Test(unittest.TestCase):
-    def test_0(self):
-        assert_that(removeDuplicates("abbaca"), equal_to("ca"))
-    
-    def test_1(self):
-        assert_that(removeDuplicates("aaa"), equal_to("a"))
-    
-    def test_2(self):
-        assert_that(removeDuplicates("baca"), equal_to("baca"))
 
-if __name__ == '__main__':
-    unittest.main()
+def test_0():
+    assert remove_duplicates("abbaca") == "ca"
+
+
+def test_1():
+    assert remove_duplicates("aaa") == "a"
+
+
+def test_2():
+    assert remove_duplicates("baca") == "baca"
+
+# O(N) | O(U) where "N" is the length of the string and "U" is the number of unique chars
