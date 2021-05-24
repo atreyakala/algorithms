@@ -42,7 +42,6 @@ def sort_colors(nums: List[int]) -> None:
             curr_idx += 1
         else:
             nums[curr_idx], nums[next_right_idx] = nums[next_right_idx], nums[curr_idx]
-            curr_idx += 1
             next_right_idx -= 1
 
 
