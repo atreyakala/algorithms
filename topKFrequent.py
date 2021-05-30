@@ -1,6 +1,7 @@
 import heapq
 from collections import Counter
 
+
 def topKFrequent(nums, k):
     numFreq = Counter(nums)
     maxFreqHeap = []
@@ -10,6 +11,7 @@ def topKFrequent(nums, k):
         else:
             heapq.heappush(maxFreqHeap, (freq, num))
     return [heapq.heappop(maxFreqHeap)[1] for _ in range(k)][::-1]
+
 
 def topKFrequent(nums, k):
     buckets = [[] for _ in range(len(nums) + 1)]
