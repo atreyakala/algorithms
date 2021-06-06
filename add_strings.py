@@ -22,6 +22,7 @@ num1 and num2 consist of only digits.
 num1 and num2 don't have any leading zeros except for the zero itself.
 """
 
+
 def add_strings(num1, num2):
     max_len = max(len(num1), len(num2))
     num1 = num1.zfill(max_len)

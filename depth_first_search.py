@@ -6,7 +6,7 @@ class Node:
         self.children = []
         self.name = name
 
-    def add_child(self, name):
+    def add_child(self, name: str):
         child_node = Node(name)
         self.children.append(child_node)
         return self
