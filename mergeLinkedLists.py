@@ -21,7 +21,7 @@ def mergeLinkedLists(headOne, headTwo):
     p1Prev = None
     p2 = headTwo
     while p1 is not None and p2 is not None:
-        if p1.value < p2.value:
+        if p1.val < p2.val:
             p1Prev = p1
             p1 = p1.next
         else:
@@ -32,4 +32,4 @@ def mergeLinkedLists(headOne, headTwo):
 			p1Prev.next = p1
     if p1 is None:
         p1Prev.next = p2
-    return headOne if headOne.value < headTwo.value else headTwo
+    return headOne if headOne.val < headTwo.val else headTwo

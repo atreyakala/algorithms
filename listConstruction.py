@@ -12,7 +12,7 @@ class DoublyLinkedList:
     # O(n) time | O(1) space
     def containsNodeWithValue(self, value):
         node = self.head
-        while node is not None and node.value != value:
+        while node is not None and node.val != value:
             node = node.next
         return node is not None
 
@@ -40,7 +40,7 @@ class DoublyLinkedList:
         while node is not None:
             nodeToRemove = node
             node = node.next
-            if nodeToRemove.value == value:
+            if nodeToRemove.val == value:
                 self.remove(nodeToRemove)
 
     # O(1) time | O(1) space

@@ -23,12 +23,12 @@ class LRUCache:
         if key not in self.cache:
             return None
         self.updateMostRecent(self.cache[key])
-        return self.cache[key].value
+        return self.cache[key].val
 
     def replaceKey(self, key, value):
         if key not in self.cache:
             raise Exception("Key not in cache!")
-        self.cache[key].value = value
+        self.cache[key].val = value
 
     def evictLeastRecent(self):
         keyToRemove = self.listOfMostRecent.tail.key
