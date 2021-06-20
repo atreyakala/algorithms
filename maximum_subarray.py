@@ -36,7 +36,7 @@ def max_sub_array(nums: List[int]) -> int:
     max_so_far = nums[0]
 
     for num in nums[1:]:
-        max_ending_here = max(max_ending_here, num)
+        max_ending_here = max(max_ending_here + num, num)
         max_so_far = max(max_ending_here, max_so_far)
 
     return max_so_far
@@ -49,5 +49,8 @@ def test_0():
 def test_1():
     assert max_sub_array([-10, 100, -15, 4]) == 100
 
+
+def test_2():
+    assert max_sub_array([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6
 
 # O(N) | O(1)
