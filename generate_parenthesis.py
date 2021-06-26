@@ -15,7 +15,6 @@ from typing import List
 def generate_parenthesis(n: int):
     result = []
     generate(n, result)
-    print(result)
     return result
 
 
