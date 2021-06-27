@@ -50,6 +50,28 @@ def can_finish(num_courses: int, prerequisites: List[List[int]]) -> bool:
 # O(v + e) | O(v + e)
 
 
+def find_order(num_courses: int, prerequisites: List[List[int]]) -> List[int]:
+    num_prerequisites = defaultdict(int)
+    dependents = defaultdict(list)
+
+    for dependent, prerequisite in prerequisites:
+        num_prerequisites[dependent] += 1
+        dependents[prerequisite].append(dependent)
+
+    can_take = set(range(num_courses)) - set(num_prerequisites.keys())
+    visited = []
+
+    while len(can_take) > 0:
+        course = can_take.pop()
+        visited.append(course)
+        for dependent in dependents[course]:
+            num_prerequisites[dependent] -= 1
+            if num_prerequisites[dependent] == 0:
+                can_take.add(dependent)
+
+    return visited if len(visited) == num_courses else []
+
+
 def test_0():
     assert can_finish(2, [[1, 0]])
 
