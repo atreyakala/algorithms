@@ -40,7 +40,7 @@ def word_break_helper(string: str, word_dict: set, memo: dict) -> List[str]:
 
     for word in word_dict:
         if string.startswith(word):
-            suffix = string[len(word) : ]
+            suffix = string[len(word):]
             suffix_sentences = word_break_helper(suffix, word_dict, memo)
             for suffix_sentence in suffix_sentences:
                 optional_space = " " if len(suffix_sentence) > 0 else ""

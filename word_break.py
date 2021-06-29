@@ -1,73 +1,50 @@
-from collections import deque
-from functools import lru_cache
-from typing import List, FrozenSet
+"""
+139. Word Break https://leetcode.com/problems/word-break/
+
+Given a string and a dictionary of strings word_dict. Return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+
+Constraints:
+    1 <= s.length <= 300
+    1 <= wordDict.length <= 1000
+    1 <= wordDict[i].length <= 20
+    s and wordDict[i] consist of only lowercase English letters.
+    All the strings of wordDict are unique.
+"""
+
+from typing import List
 
 
 def word_break(string: str, word_dict: List[str]) -> bool:
-    memo = {}
-    return word_break_memo(string, frozenset(word_dict), 0, memo)
+    return word_break_helper(string, set(word_dict), {})
 
 
-def word_break_memo(string: str, word_dict: FrozenSet[str], start: int, memo: dict) -> bool:
-    if start == len(string):
+def word_break_helper(string: str, word_dict: set, memo: dict) -> bool:
+    if len(string) == 0:
         return True
 
-    if start in memo:
-        return memo[start]
-
-    for end in range(start + 1, len(string) + 1):
-        if string[start: end] in word_dict and word_break_memo(string, word_dict, end, memo):
-            memo[start] = True
-            return True
-
-    memo[start] = False
-    return False
-
-
-def word_break(string: str, word_dict: List[str]) -> bool:
-    # dp[i] is True if s[0..i] can be segmented
-    dp = [False] * (len(string) + 1)
-    dp[0] = True
-    dictionary = {}
+    if string in memo:
+        return memo[string]
 
     for word in word_dict:
-        dictionary[word] = True
-
-    for i in range(len(string)):
-        if dp[i]:
-            for j in range(i, len(string)):
-                if string[i: j + 1] in dictionary:
-                    dp[j + 1] = True
-
-    return dp[-1]
-
-
-def word_break(string: str, word_dict: List[str]) -> bool:
-    @lru_cache()
-    def word_break_memo(s: str, dictionary: FrozenSet[str], start: int):
-        if start == len(s):
-            return True
-        for end in range(start + 1, len(s) + 1):
-            if s[start:end] in dictionary and word_break_memo(s, dictionary, end):
+        if string.startswith(word):
+            suffix = string[len(word):]
+            if word_break_helper(suffix, word_dict, memo):
                 return True
-        return False
 
-    return word_break_memo(string, frozenset(word_dict), 0)
-
-
-def word_break(string, word_dict):
-    dictionary = {}
-    for word in word_dict:
-        dictionary[word] = True
-    queue = deque([0])
-    visited = [False] * len(string)
-    while len(queue) > 0:
-        start = queue.popleft()
-        for end in range(start, len(string)):
-            if not visited[end]:
-                if string[start: end + 1] in dictionary:
-                    queue.append(end)
-                    if end == len(string) - 1:
-                        return True
-        visited[start] = True
+    memo[string] = False
     return False
+
+# O(n^3) | O(n)
