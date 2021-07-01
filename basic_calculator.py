@@ -19,67 +19,41 @@ Constraints
     The answer is guaranteed to fit in a 32-bit integer.
 """
 
-from typing import Tuple
 
+def calculate(string: str) -> int:
+    operator_stack = ["+"]
+    number_stack = []
 
-def calculate(s: str) -> int:
-    stack = []
-    number = 0
-    operator = "+"
+    idx = 0
+    num = 0
 
-    for i, char in enumerate(s):
+    while idx < len(string):
+        char = string[idx]
+        if char == " ":
+            idx += 1
+            continue
         if char.isdigit():
-            number = number * 10 + int(char)
-        if char in "+-*/" or i == len(s) - 1:
+            while idx < len(string) and string[idx].isdigit():
+                num = num * 10 + int(string[idx])
+                idx += 1
+            idx -= 1
+            operator = operator_stack.pop()
             if operator == "+":
-                stack.append(number)
+                number_stack.append(num)
             elif operator == "-":
-                stack.append(-number)
+                number_stack.append(-num)
             elif operator == "*":
-                stack.append(stack.pop() * number)
+                number_stack.append(number_stack.pop() * num)
             else:
-                stack.append(int(stack.pop() / number))
-            number = 0
-            operator = char
+                number_stack.append(int(number_stack.pop() / num))
+        else:
+            operator_stack.append(char)
+        num = 0
+        idx += 1
 
-    return sum(stack)
+    return sum(number_stack)
 
 # O(n) | O(n)
-
-
-def calculate(s: str) -> int:
-    s = s.replace(" ", "")
-    stack = []
-    result = 0
-
-    i = 0
-    while i < len(s):
-        char = s[i]
-        if char.isdigit():
-            number, i = get_number(s, i)
-            stack.append(number)
-        elif char in "+-":
-            number, i = get_number(s, i + 1)
-            number = number if char == "+" else -number
-            stack.append(number)
-        else:
-            first_operand = stack.pop()
-            second_operand, i = get_number(s, i + 1)
-            current_result = first_operand * second_operand if char == "*" else int(first_operand / second_operand)
-            stack.append(current_result)
-
-    result += sum(stack)
-    return result
-
-
-def get_number(s: str, i: int) -> Tuple[int, int]:
-    digits = []
-    while i < len(s) and s[i].isdigit():
-        digits.append(s[i])
-        i += 1
-
-    number = int("".join(digits))
-    return number, i
 
 
 def test_0():
@@ -95,12 +69,24 @@ def test_2():
 
 
 def test_3():
-    assert calculate("42/8 + 5 ") == 10
+    assert calculate("2 * 4 * 6") == 48
 
 
 def test_4():
-    assert calculate("2 * 4 * 6") == 48
+    assert calculate("42/8 + 5 ") == 10
+
+
+def test_5():
+    assert calculate(" -4/3 + 1 ") == 0
 
 
 def test_5():
     assert calculate("14 - 3/2") == 13
+
+
+def test_6():
+    assert calculate("  -114 - 1*2") == -116
+
+
+if __name__ == "__main__":
+    test_6()
