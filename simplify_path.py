@@ -27,17 +27,16 @@ Constraints:
 
 
 def simplify_path(path):
-    path_list = path.split("/")
     stack = []
 
-    for item in path_list:
-        if not item or item == '.':
+    for token in path.split("/"):
+        if token in ("", "."):
             continue
-        if item == '..':
+        elif token == '..':
             if stack:
                 stack.pop()
         else:
-            stack.append(item)
+            stack.append(token)
 
     return "/" + "/".join(stack)
 
