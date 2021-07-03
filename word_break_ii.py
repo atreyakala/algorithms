@@ -22,31 +22,33 @@ Constraints:
     All the strings of wordDict are unique.
 """
 
-from typing import List
+from typing import List, Set, Dict
 
 
 def word_break(string: str, word_dict: List[str]) -> List[str]:
     return word_break_helper(string, set(word_dict), {})
 
 
-def word_break_helper(string: str, word_dict: set, memo: dict) -> List[str]:
+def word_break_helper(string: str, word_dict: Set[str], cache: Dict[str, List[str]]) -> List[str]:
     if len(string) == 0:
         return [""]
 
-    if string in memo:
-        return memo[string]
+    if string in cache:
+        return cache[string]
 
     sentences = []
+    for idx in range(len(string)):
+        prefix = string[:idx + 1]
 
-    for word in word_dict:
-        if string.startswith(word):
-            suffix = string[len(word):]
-            suffix_sentences = word_break_helper(suffix, word_dict, memo)
-            for suffix_sentence in suffix_sentences:
-                optional_space = " " if len(suffix_sentence) > 0 else ""
-                sentences.append(word + optional_space + suffix_sentence)
+        if prefix in word_dict:
+            suffix = string[idx + 1:]
+            suffix_sentences = word_break_helper(suffix, word_dict, cache)
 
-    memo[string] = sentences
+            for sentence in suffix_sentences:
+                optional_space = " " if len(sentence) > 0 else ""
+                sentences.append(prefix + optional_space + sentence)
+
+    cache[string] = sentences
     return sentences
 
 # O(w + n^2 + 2^n) | O(2^n * n + w)
