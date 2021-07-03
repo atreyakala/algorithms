@@ -23,9 +23,12 @@ from collections import deque
 
 def right_side_view(root):
     view = []
+
     if root is None:
         return view
+
     queue = deque([root])
+
     while len(queue) > 0:
         for i in range(len(queue)):
             node = queue.popleft()
@@ -35,6 +38,7 @@ def right_side_view(root):
                 queue.append(node.right)
             if node.left is not None:
                 queue.append(node.left)
+
     return view
 
 

@@ -72,25 +72,23 @@ def left_most_column_with_one(binary_matrix: 'BinaryMatrix') -> int:
 
 def left_most_column_with_one(binary_matrix: 'BinaryMatrix') -> int:
     rows, cols = binary_matrix.dimensions()
-    left_most_column = cols + 1
+    left_most_column = cols
 
     for row in range(rows):
-        row_left_most_column = left_most_column_with_one_for_row(binary_matrix, row, cols)
-        left_most_column = min(row_left_most_column, left_most_column)
+        lo = 0
+        hi = cols - 1
 
-    return left_most_column if left_most_column != cols + 1 else -1
+        while lo < hi:
+            mid = (lo + hi) // 2
 
+            if binary_matrix.get(row, mid) == 1:
+                hi = mid
+            else:
+                lo = mid + 1
 
-def left_most_column_with_one_for_row(binary_matrix: 'BinaryMatrix', row: int, cols: int) -> int:
-    lo = 0
-    hi = cols - 1
-    min_idx = cols + 1
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        val = binary_matrix.get(row, mid)
-        if val == 1:
-            min_idx = min(mid, min_idx)
-            hi = mid - 1
-        else:
-            lo = mid + 1
-    return min_idx
+        if binary_matrix.get(row, lo) == 1:
+            left_most_column = min(lo, left_most_column)
+
+    return left_most_column if left_most_column != cols else -1
+
+#  O(nlogm) | O(1)
