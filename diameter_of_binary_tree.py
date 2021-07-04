@@ -33,7 +33,7 @@ def diameter_of_binary_tree(root: TreeNode) -> int:
 
 def get_height_diameter(node: TreeNode) -> Tuple[int, int]:
     if node is None:
-        return -1, 0
+        return (-1, -1)
 
     left_height, left_diameter = get_height_diameter(node.left)
     right_height, right_diameter = get_height_diameter(node.right)
@@ -41,7 +41,7 @@ def get_height_diameter(node: TreeNode) -> Tuple[int, int]:
     current_height = max(left_height, right_height) + 1
     current_diameter = max(left_diameter, right_diameter, left_height + right_height + 2)
 
-    return current_height, current_diameter
+    return (current_height, current_diameter)
 
 
 def test_0():
