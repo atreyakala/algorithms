@@ -29,8 +29,8 @@ class Node:
 
 
 def max_path_sum(node: Node) -> int:
-    _, max_sum_so_far = max_gain(node)
-    return max_sum_so_far
+    _, max_sum = max_gain(node)
+    return max_sum
 
 
 def max_gain(node: Node) -> Tuple[int, float]:
@@ -39,10 +39,13 @@ def max_gain(node: Node) -> Tuple[int, float]:
 
     left_max_sum_as_branch, left_max_path_sum = max_gain(node.left)
     right_max_sum_as_branch, right_max_path_sum = max_gain(node.right)
-    max_child_branch_sum = max(left_max_sum_as_branch, right_max_sum_as_branch)
 
-    max_sum_as_branch = max(max_child_branch_sum + node.val, node.val)
+    max_child_branch_sum = max(left_max_sum_as_branch, right_max_sum_as_branch)
+    max_sum_as_branch = max(max_child_branch_sum, 0) + node.val
+
     max_sum_as_root = max(max_sum_as_branch, left_max_sum_as_branch + right_max_sum_as_branch + node.val)
     max_path_sum = max(left_max_path_sum, right_max_path_sum, max_sum_as_root)
+
     return max_sum_as_branch, max_path_sum
 
+# O(n) | O(h)
